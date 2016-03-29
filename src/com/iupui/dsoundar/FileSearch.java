@@ -28,7 +28,6 @@ public class FileSearch extends HttpServlet {
 	String path = "C:/Users/ajsiv/Documents/Predictive/TextFiles";
 	String pdfPath = "C:\\Users\\ajsiv\\Documents\\Predictive\\PDFfiles\\";
 	boolean stop = false;
-	StringBuilder resp = new StringBuilder();
 	private static final long serialVersionUID = 10902304810394802L;
 
     /**
@@ -45,7 +44,7 @@ public class FileSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("GET method not supported");
-		resp.delete(0, resp.length());
+		
 	}
 
 	/**
@@ -54,12 +53,12 @@ public class FileSearch extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-		resp.delete(0, resp.length());
 		request.setAttribute("searchResult", searchresult(request.getParameter("keyword")));
 		dispatcher.forward(request,  response);
 	}
 	
 	protected void initializeList(){
+		alist.clear();
 		alist.add("<table class=\"table\">");
 		alist.add("<thead><tr><th>Document Name</th><th>Download Link</th></tr></thead>");
 		alist.add("<tbody>");
@@ -81,6 +80,7 @@ public class FileSearch extends HttpServlet {
 	protected String searchresult(String key) throws IOException{
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
+		StringBuilder resp = new StringBuilder();
 		initializeList();
 				for (int i = 0; i < listOfFiles.length; i++) {
 				      if (listOfFiles[i].isFile()) {
